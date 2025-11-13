@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse Build – Gestão de Obras</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0b0c10;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    header {
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: .05em;
+    }
+
+    .logo span {
+      color: #ff2b2b;
+    }
+
+    .hero {
+      padding: 2rem 0 3rem 0;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: #d7d7d7;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-bullets {
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-bullets li {
+      margin-bottom: .4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: .8rem;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      border: 1px solid #ff2b2b55;
+      color: #ffb3b3;
+      margin-bottom: .75rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: .9rem 1.6rem;
+      border-radius: 999px;
+      background: #ff2b2b;
+      color: #fff;
+      font-weight: 600;
+      font-size: .95rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 43, 43, 0.35);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(255, 43, 43, 0.5);
+      background: #ff3d3d;
+    }
+
+    .hero-image {
+      border-radius: 1.5rem;
+      border: 1px solid #ffffff15;
+      padding: 1.5rem;
+      background: radial-gradient(circle at top left, #ff2b2b25, #0b0c10);
+      box-shadow: 0 20px 40px rgba(0,0,0,.55);
+    }
+
+    .hero-image h2 {
+      font-size: 1.1rem;
+      margin-bottom: .7rem;
+    }
+
+    .hero-image p {
+      font-size: .9rem;
+      color: #e0e0e0;
+      margin-bottom: .4rem;
+    }
+
+    .hero-image .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .6rem;
+      margin-top: .8rem;
+      font-size: .85rem;
+    }
+
+    .status-card {
+      padding: .7rem .8rem;
+      border-radius: .9rem;
+      border: 1px solid #ffffff1a;
+      background: #101119;
+    }
+
+    .status-label {
+      font-size: .75rem;
+      color: #a5a5a5;
+      margin-bottom: .2rem;
+    }
+
+    .status-value {
+      font-weight: 600;
+    }
+
+    .status-pill {
+      display: inline-block;
+      font-size: .7rem;
+      padding: .05rem .45rem;
+      border-radius: 999px;
+      background: #22c55e22;
+      color: #86efac;
+      margin-left: .4rem;
+    }
+
+    .section {
+      padding: 2.5rem 0;
+      border-top: 1px solid #ffffff10;
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: .8rem;
+    }
+
+    .section p {
+      color: #d0d0d0;
+      margin-bottom: .7rem;
+      max-width: 800px;
+    }
+
+    .section ul {
+      margin-left: 1.2rem;
+      margin-top: .5rem;
+    }
+
+    .section ul li {
+      margin-bottom: .35rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.4rem;
+    }
+
+    .card {
+      border-radius: 1.1rem;
+      border: 1px solid #ffffff15;
+      padding: 1rem;
+      background: #101119;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: .4rem;
+    }
+
+    .card p {
+      font-size: .9rem;
+      color: #d7d7d7;
+    }
+
+    .highlight {
+      color: #ff7b7b;
+      font-weight: 500;
+    }
+
+    .section-center {
+      text-align: center;
+    }
+
+    .section-center p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      font-size: .8rem;
+      color: #9f9f9f;
+      border-top: 1px solid #ffffff10;
+      margin-top: 1rem;
+    }
+
+    /* Botão flutuante de WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #25d366;
+      box-shadow: 0 10px 25px rgba(0,0,0,.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .whatsapp-float img {
+      width: 30px;
+      height: 30px;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image {
+        order: -1;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="whatsapp-float">
+    <a 
+      href="https://wa.me/SEU_NUMERO_AQUI?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20conhecer%20o%20Pulse%20Build%20para%20gest%C3%A3o%20de%20obras.%20Voc%C3%AA%20pode%20me%20explicar%20como%20funciona%3F"
+      target="_blank"
+      aria-label="Falar no WhatsApp sobre o Pulse Build"
+    >
+      <!-- Ícone simples de WhatsApp em SVG para não depender de CDN -->
+      <svg viewBox="0 0 32 32" width="30" height="30" fill="#ffffff">
+        <path d="M16 3C9.383 3 4 8.383 4 15c0 2.33.664 4.492 1.816 6.332L4 29l7.863-1.781A11.86 11.86 0 0 0 16 27c6.617 0 12-5.383 12-12S22.617 3 16 3zm0 2c5.514 0 10 4.486 10 10s-4.486 10-10 10a9.82 9.82 0 0 1-4.992-1.383l-.355-.211-4.707 1.066 1.043-4.59-.23-.375A9.8 9.8 0 0 1 6 15c0-5.514 4.486-10 10-10zm-3.094 5c-.258 0-.676.097-1.032.484-.356.387-1.356 1.324-1.356 3.23 0 1.906 1.387 3.75 1.58 4.006.194.258 2.676 4.258 6.615 5.801 3.266 1.285 3.934 1.031 4.645.969.711-.063 2.285-.934 2.605-1.836.32-.902.32-1.676.227-1.836-.094-.16-.356-.258-.746-.453-.39-.195-2.301-1.137-2.66-1.266-.36-.129-.621-.195-.883.195-.262.39-1.011 1.266-1.24 1.524-.229.258-.457.29-.848.097-.39-.195-1.649-.609-3.141-1.941-1.161-1.037-1.945-2.316-2.175-2.707-.23-.39-.024-.602.17-.797.175-.174.39-.453.585-.68.194-.227.259-.387.389-.646.13-.258.065-.484-.032-.68-.097-.195-.858-2.129-1.2-2.918-.315-.733-.64-.75-.898-.758z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span>Pulse</span> Build
+      </div>
+      <div style="font-size: .8rem; color:#b3b3b3;">
+        Gestão de obras | SaaS
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div>
+          <div class="tag">Novo • Plataforma online para gestão de obras</div>
+          <h1 class="hero-title">Gestão de obras sem planilhas caóticas.</h1>
+          <p class="hero-subtitle">
+            Centralize cronogramas, orçamentos, pendências e comunicação da equipe em um único sistema,
+            pensado para quem vive o dia a dia de obra.
+          </p>
+
+          <ul class="hero-bullets">
+            <li>• Pare de depender de dezenas de planilhas soltas.</li>
+            <li>• Veja o status real de cada obra em segundos.</li>
+            <li>• Organize sua equipe e reduza retrabalho e atrasos.</li>
+          </ul>
+
+          <a 
+            class="btn-primary" 
+            href="https://wa.me/SEU_NUMERO_AQUI?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20conhecer%20o%20Pulse%20Build%20para%20gest%C3%A3o%20de%20obras.%20Voc%C3%AA%20pode%20me%20explicar%20como%20funciona%3F"
+            target="_blank"
+          >
+            Falar com especialista no WhatsApp
+          </a>
+          <p style="font-size:.8rem;color:#9e9e9e;margin-top:.6rem;">
+            Sem compromisso. Conversa rápida para entender sua realidade de obra.
+          </p>
+        </div>
+
+        <div class="hero-image">
+          <h2>Visão geral das obras</h2>
+          <p>Veja em segundos quais obras estão em dia, em risco ou atrasadas.</p>
+
+          <div class="status-grid">
+            <div class="status-card">
+              <div class="status-label">Obras ativas</div>
+              <div class="status-value">7</div>
+            </div>
+            <div class="status-card">
+              <div class="status-label">Entregas no prazo</div>
+              <div class="status-value">
+                86% <span class="status-pill">+18% vs. planilhas</span>
+              </div>
+            </div>
+            <div class="status-card">
+              <div class="status-label">Pendências abertas</div>
+              <div class="status-value">23</div>
+            </div>
+            <div class="status-card">
+              <div class="status-label">Equipes conectadas</div>
+              <div class="status-value">obras, escritório, cliente</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROBLEMA -->
+      <section class="section">
+        <h2>Suas obras espalhadas em planilhas, grupos de WhatsApp e memória?</h2>
+        <p>
+          A maior parte das construtoras e escritórios de engenharia ainda controla tudo em planilhas,
+          prints e anotações soltas. Isso gera:
+        </p>
+        <ul>
+          <li>Falta de visão clara do andamento de cada obra.</li>
+          <li>Dificuldade para saber o que está atrasado e por quê.</li>
+          <li>Problemas na conferência de custos e orçamentos.</li>
+          <li>Informações importantes perdidas em conversas de WhatsApp.</li>
+        </ul>
+        <p>
+          O <span class="highlight">Pulse Build</span> nasce para organizar esse caos e transformar a gestão da obra em algo previsível e controlável.
+        </p>
+      </section>
+
+      <!-- O QUE É -->
+      <section class="section">
+        <h2>O que é o Pulse Build?</h2>
+        <p>
+          O Pulse Build é uma plataforma online de gestão de obras que centraliza as informações mais
+          importantes do seu projeto em um único lugar.
+        </p>
+        <p>
+          Você acessa de qualquer dispositivo, acompanha o andamento das obras em tempo real e tem dados
+          confiáveis para tomar decisão – sem depender de planilhas quebradas ou anotações soltas.
+        </p>
+      </section>
+
+      <!-- FUNCIONALIDADES -->
+      <section class="section">
+        <h2>Principais funcionalidades</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Visão geral das obras</h3>
+            <p>Acompanhe todas as obras em um painel único, com status, responsáveis e prazos.</p>
+          </div>
+          <div class="card">
+            <h3>Plano de obra e cronograma</h3>
+            <p>Organize etapas, datas e responsáveis e veja o que está em dia, em risco ou atrasado.</p>
+          </div>
+          <div class="card">
+            <h3>Orçamentos e custos</h3>
+            <p>Registre orçamentos, medições e tenha clareza sobre o custo real da obra.</p>
+          </div>
+          <div class="card">
+            <h3>Pendências e checklists</h3>
+            <p>Liste pendências, defina responsáveis e prazos, evitando retrabalho.</p>
+          </div>
+          <div class="card">
+            <h3>Registro de ocorrências</h3>
+            <p>Centralize registros de problemas, fotos e decisões, criando histórico da obra.</p>
+          </div>
+          <div class="card">
+            <h3>Acesso para equipe</h3>
+            <p>Compartilhe o necessário com engenheiros, mestres de obra, parceiros e clientes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PARA QUEM -->
+      <section class="section">
+        <h2>Para quem o Pulse Build foi criado</h2>
+        <p>
+          O Pulse Build é ideal para quem toca uma ou várias obras ao mesmo tempo e sente que as coisas
+          estão se perdendo no meio do caminho:
+        </p>
+        <ul>
+          <li>Construtoras e incorporadoras.</li>
+          <li>Escritórios de engenharia.</li>
+          <li>Gestores de obras e facilities.</li>
+          <li>Profissionais que precisam de visão clara e centralizada da obra.</li>
+        </ul>
+      </section>
+
+      <!-- BENEFÍCIOS -->
+      <section class="section section-center">
+        <h2>O que você ganha usando o Pulse Build</h2>
+        <p>
+          Mais controle sobre prazos e entregas, menos retrabalho e deslocamentos desnecessários, comunicação
+          mais clara com a equipe e clientes, e um histórico confiável das obras para aprender com erros e acertos.
+        </p>
+      </section>
+
+      <!-- CTA FINAL -->
+      <section class="section section-center">
+        <h2>Quer ver o Pulse Build na prática?</h2>
+        <p>
+          Me chama no WhatsApp e eu te mostro, em poucos minutos, como o Pulse Build pode se encaixar na realidade das suas obras.
+        </p>
+        <a 
+          class="btn-primary" 
+          href="https://wa.me/SEU_NUMERO_AQUI?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20conhecer%20o%20Pulse%20Build%20para%20gest%C3%A3o%20de%20obras.%20Voc%C3%AA%20pode%20me%20explicar%20como%20funciona%3F"
+          target="_blank"
+        >
+          Falar agora pelo WhatsApp
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      Pulse Build &copy; <span id="year"></span> – Plataforma de gestão de obras.
+    </footer>
+  </div>
+
+  <script>
+    // ano automático no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
